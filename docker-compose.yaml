@@ -8,8 +8,9 @@ services:
     volumes:
       - ./:/app/
     entrypoint:
-      - ./run.sh
-    command: ['run']
+      - ./backend.sh
+    command:
+      - run
     ports:
       - 8250:8250
 
@@ -19,17 +20,6 @@ services:
     volumes:
       - ./:/app/
     entrypoint:
-      - npm
-      - --prefix
-      - /app/bond/frontend
+      - ./backend.sh
     command:
-      - install
-  frontend-watch:
-    extends:
-      service: frontend-install
-    command:
-      - run
       - watch
-    depends_on:
-      frontend-install:
-        condition: service_completed_successfully
