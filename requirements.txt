@@ -2,3 +2,6 @@ fastapi>=0.104.0
 uvicorn>=0.23.2
 click>=8.1.7
 websockets>=11.0.3
+grpclib
+protobuf
+grpcio
