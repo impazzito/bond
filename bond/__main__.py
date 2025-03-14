@@ -6,7 +6,7 @@ def cli():
     pass
 
 @cli.command()
-@click.option("--host", default="127.0.0.1", help="Host to bind the server to")
+@click.option("--host", default="0.0.0.0", help="Host to bind the server to")
 @click.option("--port", default=8500, type=int, help="Port to bind the server to")
 def run(host, port):
     """Start the FastAPI application server."""

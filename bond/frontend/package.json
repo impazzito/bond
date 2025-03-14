@@ -2,7 +2,7 @@
   "name": "vue-project",
   "version": "0.0.0",
   "scripts": {
-    "run": "vite --port 8300",
+    "run": "vite --port 8300 --host",
     "build": "vite build --port 8300",
     "preview": "vite preview --port 8300"
   },
