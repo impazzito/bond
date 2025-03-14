@@ -12,7 +12,7 @@ services:
     command:
       - run
     ports:
-      - 8250:8250
+      - 8500:8500
 
   frontend:
     image: docker.io/node:23.9-bookworm-slim
@@ -22,4 +22,6 @@ services:
     entrypoint:
       - ./frontend.sh
     command:
-      - watch
+      - run
+    ports:
+      - 8300:8300

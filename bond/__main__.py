@@ -1,5 +1,4 @@
 import click
-from bond.app import create_app
 
 @click.group()
 def cli():
@@ -8,7 +7,7 @@ def cli():
 
 @cli.command()
 @click.option("--host", default="127.0.0.1", help="Host to bind the server to")
-@click.option("--port", default=8250, type=int, help="Port to bind the server to")
+@click.option("--port", default=8500, type=int, help="Port to bind the server to")
 def run(host, port):
     """Start the FastAPI application server."""
     import uvicorn
