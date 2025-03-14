@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  
+  HOEM
 </template>
