@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chat;
+
+// Request message from the client
+message ApiRequest {
+    string text = 1;  // The text message sent by the client
+}
+
+// Response message from the server (streamed)
+message ApiResponse {
+    string cell_id = 1;    // ID of the chat cell
+    string stream_id = 2;  // ID of the stream (useful for tracking updates)
+    string payload = 3;    // Actual content of the message
+}
