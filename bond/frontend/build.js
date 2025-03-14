@@ -55,7 +55,8 @@ async function build() {
             ".woff2": file,
             ".zip": file
         },
-        outdir: 'out/',
+        outdir: 'static/',
+        publicPath: '/static/'
         plugins: [
             vuePlugin({
                 enableTemplateCompiler: true,

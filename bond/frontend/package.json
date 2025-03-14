@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "watch": "WATCH=1 node build.js",
+    "run": "WATCH=1 node build.js",
     "build": "node build.js",
     "lint": "eslint src/ --fix --ext .js --ext .vue & prettier src/** --write --no-semi --tab-width 4 --arrow-parens avoid --trailing-comma none"
   },
