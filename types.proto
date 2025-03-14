@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package chat;
+package types;
 
 // Request message from the client
 message ApiRequest {

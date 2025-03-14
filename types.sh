@@ -2,6 +2,4 @@
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-uv run --with grpcio-tools python3 -m grpc_tools.protoc types.proto     -I. \
-    --python_out=. \
-    --grpc_python_out=.
+uv run --with betterproto[compiler] --with grpcio-tools python3 -m grpc_tools.protoc -I . --python_betterproto_out=bond types.proto
