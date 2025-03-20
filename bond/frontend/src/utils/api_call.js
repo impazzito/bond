@@ -3,8 +3,6 @@ import uuid from "@/utils/uuid";
 export default async function* api_call(url, data = {}) {
     console.info("fetch ", url, data);
 
-    const id = uuid();
-
     const response = await fetch(`//localhost:8500${url}`, {
         method: "POST",
         headers: {
@@ -18,7 +16,6 @@ export default async function* api_call(url, data = {}) {
         try {
             yield yield {
                 type: "ValidationError",
-                id,
                 ...(await response.json()),
             };
         } catch (error) {
@@ -45,7 +42,7 @@ export default async function* api_call(url, data = {}) {
             if (part.trim()) {
                 console.info("received", part);
                 try {
-                    yield Object.assign({ id }, JSON.parse(part)); // Yield each parsed JSON object
+                    yield JSON.parse(part);
                 } catch (error) {
                     console.error("JSON Parse Error:", error);
                 }
