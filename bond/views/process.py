@@ -12,6 +12,7 @@ class StreamType(str, Enum):
     STDOUT = "stdout"
     STDERR = "stderr"
 
+
 # Input model for process execution
 class ProcessInput(BaseModel):
     bin: str
@@ -23,8 +24,10 @@ class ProcessMessage(BaseModel):
     text: str
     stream: StreamType
 
+
 class ProcessExit(BaseModel):
     code: int
+
 
 async def read_stream(stream, stream_type: StreamType):
     """Reads from a stream (stdout or stderr) and yields messages."""
@@ -36,10 +39,12 @@ async def read_stream(stream, stream_type: StreamType):
             yield ProcessMessage(text=chunk.decode(), stream=stream_type)
 
 
-async def stream_process(bin: str, args: list[str]) -> AsyncGenerator[str, None]:
+async def stream_process(input: ProcessInput) -> AsyncGenerator[str, None]:
+
+    print("running input", input)
     """Runs a process asynchronously and streams its output."""
     process = await asyncio.create_subprocess_exec(
-        bin, *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        input.bin, *input.args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
 
     async for el in join_generators(
@@ -54,4 +59,4 @@ async def stream_process(bin: str, args: list[str]) -> AsyncGenerator[str, None]
 
 
 async def process(input: ProcessInput):
-    return to_streaming_response(stream_process, **input.dict())
+    return to_streaming_response(stream_process, input)

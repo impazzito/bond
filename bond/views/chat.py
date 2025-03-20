@@ -14,11 +14,11 @@ class ChatMessage(BaseModel):
     user: bool = False
 
 
-async def stream_chat_response(text: str) -> AsyncGenerator[str, None]:
+async def stream_chat_response(input: ChatInput) -> AsyncGenerator[str, None]:
     for msg in [
-        ChatMessage(text="Hello {}".format(text)),
-        ChatMessage(text=text.upper()),
-        ChatMessage(text="Message length: {}".format(len(text))),
+        ChatMessage(text="Hello {}".format(input.text)),
+        ChatMessage(text=input.text.upper()),
+        ChatMessage(text="Message length: {}".format(len(input.text))),
         ChatMessage(text="Goodbye"),
     ]:
         yield msg

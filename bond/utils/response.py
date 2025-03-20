@@ -1,11 +1,6 @@
-import asyncio
 import json
-from collections.abc import AsyncGenerator
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
 
 
 async def serialize_stream(iterable):
