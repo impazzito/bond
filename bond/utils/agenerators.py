@@ -1,7 +1,8 @@
 import asyncio
+from collections.abc import AsyncGenerator
 
 
-async def join_generators(*generators):
+async def join_generators(*generators) -> AsyncGenerator:
     # No generators provided
     if not generators:
         return

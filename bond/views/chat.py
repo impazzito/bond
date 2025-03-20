@@ -1,8 +1,8 @@
 import asyncio
 from collections.abc import AsyncGenerator
-
 from bond.utils.response import to_streaming_response
 from pydantic import BaseModel
+from fastapi.responses import StreamingResponse
 
 
 class ChatInput(BaseModel):
@@ -13,7 +13,7 @@ class ChatMessage(BaseModel):
     text: str
 
 
-async def stream_chat_response(input: ChatInput) -> AsyncGenerator[str, None]:
+async def stream_chat_response(input: ChatInput) -> AsyncGenerator[ChatMessage, None]:
     for msg in [
         ChatMessage(text="Hello {}".format(input.text)),
         ChatMessage(text="Upper {}".format(input.text.upper())),
@@ -23,5 +23,5 @@ async def stream_chat_response(input: ChatInput) -> AsyncGenerator[str, None]:
         await asyncio.sleep(0.2)
 
 
-async def chat(input: ChatInput):
+async def chat(input: ChatInput) -> StreamingResponse:
     return to_streaming_response(stream_chat_response, input)

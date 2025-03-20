@@ -16,7 +16,7 @@ async def python(input: PythonInput):
         stream_process,
         ProcessInput(
             bin="uv",
-            args=(
+            args=[
                 "run",
                 "--isolated",
                 "--python",
@@ -27,6 +27,6 @@ async def python(input: PythonInput):
                 "python",
                 "-c",
                 input.text,
-            ),
+            ],
         ),
     )

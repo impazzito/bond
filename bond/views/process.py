@@ -36,7 +36,7 @@ async def read_stream(stream, stream_type):
             yield stream_type(text=chunk.decode())
 
 
-async def stream_process(input: ProcessInput) -> AsyncGenerator[str, None]:
+async def stream_process(input: ProcessInput) -> AsyncGenerator[BaseModel, None]:
 
     print("running input", input)
     """Runs a process asynchronously and streams its output."""
@@ -52,7 +52,7 @@ async def stream_process(input: ProcessInput) -> AsyncGenerator[str, None]:
 
     await process.wait()  # Ensure process completes
 
-    yield ProcessExit(code=process.returncode)
+    yield ProcessExit(code=process.returncode or 0)
 
 
 async def process(input: ProcessInput):
