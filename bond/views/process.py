@@ -1,6 +1,5 @@
 import asyncio
 from collections.abc import AsyncGenerator
-from enum import Enum
 
 from bond.utils.agenerators import join_generators
 from bond.utils.response import to_streaming_response
@@ -38,7 +37,6 @@ async def read_stream(stream, stream_type):
 
 async def stream_process(input: ProcessInput) -> AsyncGenerator[BaseModel, None]:
 
-    print("running input", input)
     """Runs a process asynchronously and streams its output."""
     process = await asyncio.create_subprocess_exec(
         input.bin, *input.args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
