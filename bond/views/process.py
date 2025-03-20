@@ -23,6 +23,8 @@ class ProcessMessage(BaseModel):
     text: str
     stream: StreamType
 
+class ProcessExit(BaseModel):
+    code: int
 
 async def read_stream(stream, stream_type: StreamType):
     """Reads from a stream (stdout or stderr) and yields messages."""
@@ -47,6 +49,8 @@ async def json_stream(bin: str, args: list[str]) -> AsyncGenerator[str, None]:
         yield el
 
     await process.wait()  # Ensure process completes
+
+    yield ProcessExit(code=process.returncode)
 
 
 async def process(input: ProcessInput):
