@@ -3,15 +3,12 @@
         <!-- Empty space for chat messages -->
 
         <div class="flex-grow overflow-y-auto p-4 space-y-4" ref="panel">
-            <pre
-                v-for="msg in messages"
-                class="p-3 rounded-lg shadow-md w-max"
-                :class="{
-                    'bg-blue-500 text-white': msg.api,
-                    'bg-white': !msg.api,
-                }"
-                >{{ msg }}</pre
-            >
+            <template :id="id" v-for="(block, id) in blocks">
+                <template :id="id" v-for="(messages, type) in block">
+                    <component :is="type" :messages="messages" />
+                </template>
+                <hr />
+            </template>
         </div>
 
         <form
@@ -42,9 +39,25 @@
 </template>
 
 <script setup>
-import api_call from "@/utils/api_call.js";
+import api_call from "@/utils/api_call";
+import ChatResponse from "@/blocks/ChatResponse.vue";
+import ProcessStdout from "@/blocks/ProcessStdout.vue";
+import ProcessExit from "@/blocks/ProcessExit.vue";
+import ProcessStderr from "@/blocks/ProcessStderr.vue";
+import UserInput from "@/blocks/UserInput.vue";
 import { RouterLink, RouterView } from "vue-router";
-import { onMounted, ref, nextTick } from "vue";
+import { onMounted, ref, nextTick, defineOptions } from "vue";
+import uuid from "@/utils/uuid";
+
+defineOptions({
+    components: {
+        ChatResponse,
+        ProcessStdout,
+        ProcessStderr,
+        UserInput,
+        ProcessExit,
+    },
+});
 
 const messages = ref([]);
 const field = ref(null);
@@ -52,11 +65,19 @@ const panel = ref(null);
 const input = ref("ciao");
 const api = ref("/chat");
 
+const blocks = ref({});
+
 async function push_api(api, payload, ...args) {
-    messages.value.push({ api, ...payload });
+    const current = {};
+
+    blocks.value[uuid()] = current;
+
+    // messages.value.push({ api, ...payload });
 
     for await (const response of api_call(api, payload, ...args)) {
-        messages.value.push(response);
+        if (!current[response.type]) current[response.type] = [];
+
+        current[response.type].push(response);
 
         nextTick(() =>
             panel.value.scrollTo({
@@ -85,9 +106,7 @@ onMounted(async () => {
     );
 });
 
-async function submit() {
-    console.log("submit");
-
+const submit = async () => {
     push_api(api.value, { text: input.value });
-}
+};
 </script>
