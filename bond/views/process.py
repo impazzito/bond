@@ -6,20 +6,15 @@ from bond.utils.response import to_streaming_response
 from pydantic import BaseModel
 
 
-# Input model for process execution
 class ProcessInput(BaseModel):
     bin: str
     args: list[str] = []
 
-
-# Message format
 class ProcessStdout(BaseModel):
     text: str
 
-# Message format
 class ProcessStderr(BaseModel):
     text: str
-
 
 class ProcessExit(BaseModel):
     code: int

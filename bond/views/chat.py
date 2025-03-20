@@ -9,15 +9,15 @@ class ChatInput(BaseModel):
     text: str
 
 
-class ChatMessage(BaseModel):
+class ChatResponse(BaseModel):
     text: str
 
 
-async def stream_chat_response(input: ChatInput) -> AsyncGenerator[ChatMessage, None]:
+async def stream_chat_response(input: ChatInput) -> AsyncGenerator[ChatResponse, None]:
     for msg in [
-        ChatMessage(text="Hello {}".format(input.text)),
-        ChatMessage(text="Upper {}".format(input.text.upper())),
-        ChatMessage(text="Length: {}".format(len(input.text))),
+        ChatResponse(text="Hello {}".format(input.text)),
+        ChatResponse(text="Upper {}".format(input.text.upper())),
+        ChatResponse(text="Length: {}".format(len(input.text))),
     ]:
         yield msg
         await asyncio.sleep(0.2)
