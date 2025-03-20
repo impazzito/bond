@@ -70,28 +70,17 @@ async function push_api(api, payload, ...args) {
 onMounted(async () => {
     field.value.focus();
 
-    push_api(
-        "/process",
-        {
-            bin: "/bin/sh",
-            args: [
-                "-c",
-                'for i in 1 2 3 4; do echo "Message $i"; sleep 0.1; done',
-            ],
-        },
-        "sleep",
-    );
+    push_api("/process", {
+        bin: "/bin/sh",
+        args: ["-c", 'for i in 1 2 3 4; do echo "Message $i"; sleep 0.1; done'],
+    });
 
     setTimeout(
         () =>
-            push_api(
-                "/python",
-                {
-                    text: "import django; print(django.VERSION)",
-                    dependencies: ["django"],
-                },
-                "python",
-            ),
+            push_api("/python", {
+                text: "import django; print(django.VERSION)",
+                dependencies: ["django"],
+            }),
         1000,
     );
 });
