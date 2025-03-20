@@ -1,9 +1,15 @@
-export default async function* api_call(url) {
+export default async function* api_call(url, data = {}) {
 
     console.log('fetch ', url)
 
 
-    const response = await fetch(`//localhost:8500${url}`);
+    const response = await fetch(`//localhost:8500${url}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)  // Send JSON body
+        });
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";

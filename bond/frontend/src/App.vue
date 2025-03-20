@@ -30,7 +30,7 @@ onMounted(async () => {
 async function submit()  {
   console.log('click')
   messages.value.push({message: input.value, user: true})
-  for await (const response of api_call('/chat')) {
+    for await (const response of api_call('/chat', {text: input.value})) {
       messages.value.push(response)
   }
 }
