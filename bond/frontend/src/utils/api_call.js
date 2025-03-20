@@ -8,6 +8,19 @@ export default async function* api_call(url, data = {}) {
         },
         body: JSON.stringify(data), // Send JSON body
     });
+
+    console.log("DONE DONE");
+
+    // Handle HTTP errors before processing the stream
+    if (!response.ok) {
+        try {
+            yield yield { type: "ValidationError", ...(await response.json()) };
+        } catch (error) {
+            console.error("JSON Parse Error:", error);
+        }
+        return;
+    }
+
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";
