@@ -1,27 +1,24 @@
 services:
-  backend:
-    image: ghcr.io/astral-sh/uv:0.6.5-bookworm
-    environment:
-      - UV_CACHE_DIR=./env/uv/cache
-      - UV_PYTHON_INSTALL_DIR=./env/uv/python
-    working_dir: /app
-    volumes:
-      - ./:/app/
-    entrypoint:
-      - ./backend.sh
-    command:
-      - run
-    ports:
-      - 8500:8500
+    backend:
+        image: ghcr.io/astral-sh/uv:0.6.5-bookworm
+        working_dir: /app
+        volumes:
+            - ./:/app/:ro
+        entrypoint:
+            - ./backend.sh
+        command:
+            - run
+        ports:
+            - 8500:8500
 
-  frontend:
-    image: docker.io/node:23.9-bookworm-slim
-    working_dir: /app
-    volumes:
-      - ./:/app/
-    entrypoint:
-      - ./frontend.sh
-    command:
-      - run
-    ports:
-      - 8300:8300
+    frontend:
+        image: docker.io/node:23.9-bookworm-slim
+        working_dir: /app
+        volumes:
+            - ./:/app/
+        entrypoint:
+            - ./frontend.sh
+        command:
+            - run
+        ports:
+            - 8300:8300
