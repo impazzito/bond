@@ -3,7 +3,7 @@ from collections.abc import AsyncGenerator
 from enum import Enum
 
 from bond.utils.agenerators import join_generators
-from bond.views import to_streaming_response
+from bond.utils.response import to_streaming_response
 from pydantic import BaseModel
 
 
@@ -11,7 +11,6 @@ from pydantic import BaseModel
 class StreamType(str, Enum):
     STDOUT = "stdout"
     STDERR = "stderr"
-
 
 # Input model for process execution
 class ProcessInput(BaseModel):

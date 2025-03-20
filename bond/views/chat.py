@@ -1,7 +1,7 @@
 import asyncio
 from collections.abc import AsyncGenerator
 
-from bond.views import to_streaming_response
+from bond.utils.response import to_streaming_response
 from pydantic import BaseModel
 
 
