@@ -1,18 +1,11 @@
-from fastapi import FastAPI, WebSocket
-import asyncio, functools
-
-from fastapi.responses import StreamingResponse
 import asyncio
-from typing import AsyncGenerator, Annotated, Awaitable, Callable
-
 import json
-from typing import Annotated
+from collections.abc import AsyncGenerator
 
-from fastapi import FastAPI, Form
-from pydantic import BaseModel
-
-
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -25,32 +18,42 @@ app.add_middleware(
     allow_credentials=True,
 )
 
+
 class ChatInput(BaseModel):
     text: str
+
 
 class Message(BaseModel):
     message: str
     timestamp: int
 
+
 async def serialize_stream(iterable):
     async for item in iterable:
-        yield json.dumps(item.dict()) + "한ЖΩ∑"  # Send each JSON object as a newline-separated chunk
+        yield json.dumps(
+            item.dict()
+        ) + "한ЖΩ∑"  # Send each JSON object as a newline-separated chunk
         await asyncio.sleep(0.2)
+
 
 def to_streaming_response(func, *args, **kwargs):
     """
     Decorator to wrap an async generator function and return a StreamingResponse.
     """
-    return StreamingResponse(serialize_stream(func(*args, **kwargs)), media_type="application/json")
+    return StreamingResponse(
+        serialize_stream(func(*args, **kwargs)), media_type="application/json"
+    )
+
 
 async def json_stream(text: str) -> AsyncGenerator[str, None]:
     for msg in [
-        Message(message= "Hello {}".format(text), timestamp= 1),
-        Message(message= text.upper(), timestamp= 2),
-        Message(message= "Message length: {}".format(len(text)), timestamp= 3),
-        Message(message= "Goodbye", timestamp=4)
+        Message(message="Hello {}".format(text), timestamp=1),
+        Message(message=text.upper(), timestamp=2),
+        Message(message="Message length: {}".format(len(text)), timestamp=3),
+        Message(message="Goodbye", timestamp=4),
     ]:
         yield msg
+
 
 @app.post("/chat")
 async def chat(input: ChatInput) -> StreamingResponse:
