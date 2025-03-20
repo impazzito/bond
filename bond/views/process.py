@@ -7,12 +7,6 @@ from bond.utils.response import to_streaming_response
 from pydantic import BaseModel
 
 
-# Enum to distinguish stdout and stderr
-class StreamType(str, Enum):
-    STDOUT = "stdout"
-    STDERR = "stderr"
-
-
 # Input model for process execution
 class ProcessInput(BaseModel):
     bin: str
@@ -20,23 +14,26 @@ class ProcessInput(BaseModel):
 
 
 # Message format
-class ProcessMessage(BaseModel):
+class ProcessStdout(BaseModel):
     text: str
-    stream: StreamType
+
+# Message format
+class ProcessStderr(BaseModel):
+    text: str
 
 
 class ProcessExit(BaseModel):
     code: int
 
 
-async def read_stream(stream, stream_type: StreamType):
+async def read_stream(stream, stream_type):
     """Reads from a stream (stdout or stderr) and yields messages."""
 
     while not stream.at_eof():
         # Read all available output
         chunk = await stream.read(2056)  # Read up to 1024 bytes at a time
         if chunk:
-            yield ProcessMessage(text=chunk.decode(), stream=stream_type)
+            yield stream_type(text=chunk.decode())
 
 
 async def stream_process(input: ProcessInput) -> AsyncGenerator[str, None]:
@@ -48,8 +45,8 @@ async def stream_process(input: ProcessInput) -> AsyncGenerator[str, None]:
     )
 
     async for el in join_generators(
-        read_stream(process.stdout, StreamType.STDOUT),
-        read_stream(process.stderr, StreamType.STDERR),
+        read_stream(process.stdout, ProcessStdout),
+        read_stream(process.stderr, ProcessStderr),
     ):
         yield el
 
