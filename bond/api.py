@@ -1,5 +1,6 @@
 from bond.views.chat import chat
 from bond.views.process import process
+from bond.views.python import python
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -16,3 +17,4 @@ app.add_middleware(
 
 app.post("/chat")(chat)
 app.post("/process")(process)
+app.post("/python")(python)
