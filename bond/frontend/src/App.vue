@@ -82,13 +82,17 @@ onMounted(async () => {
         "sleep",
     );
 
-    push_api(
-        "/python",
-        {
-            text: "import django; print(django.VERSION)",
-            dependencies: ["django"],
-        },
-        "python",
+    setTimeout(
+        () =>
+            push_api(
+                "/python",
+                {
+                    text: "import django; print(django.VERSION)",
+                    dependencies: ["django"],
+                },
+                "python",
+            ),
+        1000,
     );
 });
 
