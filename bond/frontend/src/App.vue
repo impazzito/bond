@@ -3,7 +3,7 @@
     <div class="flex-grow"></div> <!-- Empty space for chat messages -->
 
     <div class="flex-grow overflow-y-auto p-4 space-y-4">
-        <div v-for="msg in messages" class="bg-white p-3 rounded-lg shadow-md w-max ">{{ msg.message }}</div>
+        <div v-for="msg in messages" class="p-3 rounded-lg shadow-md w-max" :class="{ 'bg-blue-500 text-white': msg.user, 'bg-white': !msg.user }">{{ msg.message }}</div>
     </div>
 
     <form @submit.prevent=submit class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 p-4 flex items-center">
@@ -29,6 +29,7 @@ onMounted(async () => {
 
 async function submit()  {
   console.log('click')
+  messages.value.push({message: input.value, user: true})
   for await (const response of api_call('/chat')) {
       messages.value.push(response)
   }
