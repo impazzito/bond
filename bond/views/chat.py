@@ -9,17 +9,17 @@ class ChatInput(BaseModel):
     text: str
 
 
-class Message(BaseModel):
+class ChatMessage(BaseModel):
     text: str
-    timestamp: int
+    user: bool = False
 
 
 async def json_stream(text: str) -> AsyncGenerator[str, None]:
     for msg in [
-        Message(message="Hello {}".format(text), timestamp=1),
-        Message(message=text.upper(), timestamp=2),
-        Message(message="Message length: {}".format(len(text)), timestamp=3),
-        Message(message="Goodbye", timestamp=4),
+        ChatMessage(text="Hello {}".format(text)),
+        ChatMessage(text=text.upper()),
+        ChatMessage(text="Message length: {}".format(len(text))),
+        ChatMessage(text="Goodbye"),
     ]:
         yield msg
         await asyncio.sleep(0.2)
