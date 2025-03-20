@@ -17,7 +17,7 @@
 
         <form
             @submit.prevent="submit"
-            class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-300 p-4 flex items-center"
+            class="w-full bg-white border-t border-gray-300 p-4 flex items-center"
         >
             <input
                 placeholder="Type something..."
