@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")/../bond/frontend"
+cd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 uv run                                       \
     --isolated                               \
