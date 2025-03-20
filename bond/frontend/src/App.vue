@@ -54,16 +54,32 @@ async function push_api(...args) {
 onMounted(async () => {
     field.value.focus();
 
-    push_api("/process", {
-        bin: "/bin/sh",
-        args: ["-c", 'for i in 1 2 3 4; do echo "Message $i"; sleep 0.1; done'],
-    });
+    push_api(
+        "/process",
+        {
+            bin: "/bin/sh",
+            args: [
+                "-c",
+                'for i in 1 2 3 4; do echo "Message $i"; sleep 0.1; done',
+            ],
+        },
+        "sleep",
+    );
+
+    push_api(
+        "/python",
+        {
+            text: "import django; print(django.VERSION)",
+            dependencies: ["django"],
+        },
+        "python",
+    );
 });
 
 async function submit() {
     console.log("submit");
     messages.value.push({ text: input.value, user: true });
 
-    push_api("/chat", { text: input.value });
+    push_api("/chat", { text: input.value }, "chat");
 }
 </script>
