@@ -1,9 +1,9 @@
 import uuid from "@/utils/uuid";
 
-export default async function* api_call(url, data = {}, explicit_id = null) {
+export default async function* api_call(url, data = {}) {
     console.info("fetch ", url, data);
 
-    const id = explicit_id || uuid();
+    const id = uuid();
 
     const response = await fetch(`//localhost:8500${url}`, {
         method: "POST",
