@@ -33,7 +33,7 @@ async def serialize_stream(iterable):
         yield json.dumps(
             item.dict()
         ) + "한ЖΩ∑"  # Send each JSON object as a newline-separated chunk
-        await asyncio.sleep(0.2)
+
 
 
 def to_streaming_response(func, *args, **kwargs):
@@ -53,6 +53,7 @@ async def json_stream(text: str) -> AsyncGenerator[str, None]:
         Message(message="Goodbye", timestamp=4),
     ]:
         yield msg
+        await asyncio.sleep(0.2)
 
 
 @app.post("/chat")
