@@ -11,15 +11,13 @@ class ChatInput(BaseModel):
 
 class ChatMessage(BaseModel):
     text: str
-    user: bool = False
 
 
 async def stream_chat_response(input: ChatInput) -> AsyncGenerator[str, None]:
     for msg in [
         ChatMessage(text="Hello {}".format(input.text)),
-        ChatMessage(text=input.text.upper()),
-        ChatMessage(text="Message length: {}".format(len(input.text))),
-        ChatMessage(text="Goodbye"),
+        ChatMessage(text="Upper {}".format(input.text.upper())),
+        ChatMessage(text="Length: {}".format(len(input.text))),
     ]:
         yield msg
         await asyncio.sleep(0.2)
