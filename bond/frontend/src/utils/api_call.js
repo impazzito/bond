@@ -13,10 +13,11 @@ export default async function* api_call(url) {
         const { done, value } = await reader.read();
         if (done) break;
 
+
         buffer += decoder.decode(value, { stream: true });
 
         // Process each complete JSON object (newline-separated)
-        let parts = buffer.split("\n");
+        let parts = buffer.split('한ЖΩ∑');
         buffer = parts.pop();  // Keep the last incomplete part
 
         for (let part of parts) {

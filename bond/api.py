@@ -29,7 +29,7 @@ async def json_stream():
     ]
 
     for msg in messages:
-        yield json.dumps(msg) + "\n"  # Send each JSON object as a newline-separated chunk
+        yield json.dumps(msg) + "한ЖΩ∑"  # Send each JSON object as a newline-separated chunk
         await asyncio.sleep(1)
 
 @app.get("/chat")
