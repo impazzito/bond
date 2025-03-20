@@ -56,7 +56,7 @@ onMounted(async () => {
 
     push_api("/process", {
         bin: "/bin/sh",
-        args: ["-c", 'for i in 1 2 3 4; do echo "Message $i"; sleep 1; done'],
+        args: ["-c", 'for i in 1 2 3 4; do echo "Message $i"; sleep 0.1; done'],
     });
 });
 
