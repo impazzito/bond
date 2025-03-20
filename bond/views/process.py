@@ -36,7 +36,7 @@ async def read_stream(stream, stream_type: StreamType):
             yield ProcessMessage(text=chunk.decode(), stream=stream_type)
 
 
-async def json_stream(bin: str, args: list[str]) -> AsyncGenerator[str, None]:
+async def stream_process(bin: str, args: list[str]) -> AsyncGenerator[str, None]:
     """Runs a process asynchronously and streams its output."""
     process = await asyncio.create_subprocess_exec(
         bin, *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
@@ -54,4 +54,4 @@ async def json_stream(bin: str, args: list[str]) -> AsyncGenerator[str, None]:
 
 
 async def process(input: ProcessInput):
-    return to_streaming_response(json_stream, **input.dict())
+    return to_streaming_response(stream_process, **input.dict())

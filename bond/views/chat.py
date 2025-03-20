@@ -14,7 +14,7 @@ class ChatMessage(BaseModel):
     user: bool = False
 
 
-async def json_stream(text: str) -> AsyncGenerator[str, None]:
+async def stream_chat_response(text: str) -> AsyncGenerator[str, None]:
     for msg in [
         ChatMessage(text="Hello {}".format(text)),
         ChatMessage(text=text.upper()),
@@ -26,4 +26,4 @@ async def json_stream(text: str) -> AsyncGenerator[str, None]:
 
 
 async def chat(input: ChatInput):
-    return to_streaming_response(json_stream, **input.dict())
+    return to_streaming_response(stream_chat_response, **input.dict())
