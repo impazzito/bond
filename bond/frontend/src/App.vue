@@ -2,7 +2,7 @@
     <div class="bg-gray-100 h-screen flex flex-col">
         <!-- Empty space for chat messages -->
 
-        <div class="flex-grow overflow-y-auto p-4 space-y-4">
+        <div class="flex-grow overflow-y-auto p-4 space-y-4" ref='panel'>
             <div
                 v-for="msg in messages"
                 class="p-3 rounded-lg shadow-md w-max"
@@ -42,16 +42,19 @@
 <script setup>
 import api_call from "@/utils/api_call.js";
 import { RouterLink, RouterView } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, nextTick } from "vue";
 
 const messages = ref([]);
 const field = ref(null);
+const panel = ref(null);
 const input = ref("ciao");
 const api = ref("/chat");
 
 async function push_api(...args) {
     for await (const response of api_call(...args)) {
         messages.value.push(response);
+
+        nextTick(() => panel.value.scrollTo({ top: panel.value.scrollHeight, behavior: "smooth" }))
     }
 }
 
