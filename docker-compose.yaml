@@ -5,7 +5,7 @@ services:
         volumes:
             - ./:/app/:ro
         entrypoint:
-            - ./backend.sh
+            - ./scripts/backend.sh
         command:
             - run
         ports:
@@ -17,7 +17,7 @@ services:
         volumes:
             - ./:/app/
         entrypoint:
-            - ./frontend.sh
+            - ./scripts/frontend.sh
         command:
             - run
         ports:
