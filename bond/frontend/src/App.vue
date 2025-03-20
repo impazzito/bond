@@ -1,37 +1,32 @@
-
 <template>
-  <h1>hello {{data}}</h1>
-  <input type="text" v-model="inputData" @keyup.enter="submit()">
-  <button @click="submit()">submit</button>
-  <RouterView />
+  <div class="justify-center flex bg-yellow-300 items-center h-screen">
+    <div class="text-4xl">
+      Hello Vue 3 + Tailwind CSS
+      <pre>{{ data }}</pre>
+      <input type="text" v-model="input" @keyup.enter="submit()">
+      <button @click="submit()">submit</button>
+      <RouterView />
+    </div>
+  </div>
 </template>
 
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
 
+<script setup>
+import api_call from '@/utils/api_call.js';
+import { RouterLink, RouterView } from 'vue-router'
 import { onMounted,ref } from 'vue'
 
-const data = ref()
-const inputData = ref()
-const connection = new WebSocket("ws://localhost:8500/ws")
+const data = ref([])
+const input = ref('ciao')
 
 
-function submit()  {
+async function submit()  {
   console.log('click')
-  connection.send(inputData.value)
+  for await (const response of api_call('/chat')) {
+      data.value.push(response)
+  }
 }
 
-onMounted(() => {
-
-  connection.onmessage = e=>{
-
-    data.value = e.data
-
-  }
-
-})
+onMounted(() => submit())
 
 </script>
-
-
-<style scoped></style>
