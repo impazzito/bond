@@ -3,16 +3,14 @@
         <!-- Empty space for chat messages -->
 
         <div class="flex-grow overflow-y-auto p-4 space-y-4" ref='panel'>
-            <div
+            <pre
                 v-for="msg in messages"
                 class="p-3 rounded-lg shadow-md w-max"
                 :class="{
                     'bg-blue-500 text-white': msg.user,
                     'bg-white': !msg.user,
                 }"
-            >
-                {{ msg }}
-            </div>
+            >{{ msg }}</pre>
         </div>
 
         <form
@@ -26,7 +24,7 @@
                 v-model="input"
                 ref="field"
             />
-            <select v-model="api">
+            <select v-model="api" class='ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400'>
                 <option value="/chat">Chat</option>
                 <option value="/python">Python</option>
             </select>
@@ -85,7 +83,7 @@ onMounted(async () => {
 
 async function submit() {
     console.log("submit");
-    messages.value.push({ text: input.value, user: true });
+    messages.value.push({ text: input.value, api: api.value, user: true });
 
     push_api(api.value, { text: input.value });
 }
