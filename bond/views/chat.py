@@ -26,4 +26,4 @@ async def stream_chat_response(input: ChatInput) -> AsyncGenerator[str, None]:
 
 
 async def chat(input: ChatInput):
-    return to_streaming_response(stream_chat_response, **input.dict())
+    return to_streaming_response(stream_chat_response, input)

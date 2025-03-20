@@ -1,6 +1,5 @@
 <template>
     <div class="bg-gray-100 h-screen flex flex-col">
-        <div class="flex-grow"></div>
         <!-- Empty space for chat messages -->
 
         <div class="flex-grow overflow-y-auto p-4 space-y-4">
@@ -27,6 +26,10 @@
                 v-model="input"
                 ref="field"
             />
+            <select v-model="api">
+                <option value="/chat">Chat</option>
+                <option value="/python">Python</option>
+            </select>
             <button
                 class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
@@ -44,6 +47,7 @@ import { onMounted, ref } from "vue";
 const messages = ref([]);
 const field = ref(null);
 const input = ref("ciao");
+const api = ref("/chat");
 
 async function push_api(...args) {
     for await (const response of api_call(...args)) {
@@ -80,6 +84,6 @@ async function submit() {
     console.log("submit");
     messages.value.push({ text: input.value, user: true });
 
-    push_api("/chat", { text: input.value }, "chat");
+    push_api(api.value, { text: input.value });
 }
 </script>
