@@ -1,5 +1,9 @@
-export default async function* api_call(url, data = {}) {
+import uuid from "@/utils/uuid";
+
+export default async function* api_call(url, data = {}, explicit_id = null) {
     console.info("fetch ", url, data);
+
+    const id = explicit_id || uuid();
 
     const response = await fetch(`//localhost:8500${url}`, {
         method: "POST",
@@ -9,12 +13,14 @@ export default async function* api_call(url, data = {}) {
         body: JSON.stringify(data), // Send JSON body
     });
 
-    console.log("DONE DONE");
-
     // Handle HTTP errors before processing the stream
     if (!response.ok) {
         try {
-            yield yield { type: "ValidationError", ...(await response.json()) };
+            yield yield {
+                type: "ValidationError",
+                id,
+                ...(await response.json()),
+            };
         } catch (error) {
             console.error("JSON Parse Error:", error);
         }
@@ -39,7 +45,7 @@ export default async function* api_call(url, data = {}) {
             if (part.trim()) {
                 console.info("received", part);
                 try {
-                    yield JSON.parse(part); // Yield each parsed JSON object
+                    yield Object.assign({ id }, JSON.parse(part)); // Yield each parsed JSON object
                 } catch (error) {
                     console.error("JSON Parse Error:", error);
                 }
