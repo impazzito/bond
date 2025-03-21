@@ -46,7 +46,3 @@ async def stream_process(input: ProcessInput) -> AsyncGenerator[BaseModel, None]
     await process.wait()  # Ensure process completes
 
     yield ProcessExit(code=process.returncode or 0)
-
-
-async def process(input: ProcessInput):
-    return to_streaming_response(stream_process, input)
