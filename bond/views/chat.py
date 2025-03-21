@@ -31,13 +31,12 @@ agent = Agent(
     ),
 )
 
-@agent.tool_plain
-async def run_python_code(input: PythonInput) -> str:
-    """Run arbitrary python code"""
-    print("""Run arbitrary python code""", input)
-    return input.text
+#@agent.tool_plain
+#async def run_python_code(input: PythonInput) -> str:
+#    return input.text
 
 async def stream_chat_response(input: ChatInput) -> AsyncGenerator[ChatResponse, None]:
+    yield ChatResponse(text='CIAO')
     async with agent.run_stream(input.text) as result:
         async for message in result.stream_text(delta=True):
             yield ChatResponse(text=message)
